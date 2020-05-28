@@ -20,11 +20,6 @@ namespace GameOfLife
             DoubleBuffered = true;
         }
 
-        private void GUI_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void GUI_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -213,16 +208,23 @@ namespace GameOfLife
                     newCells[irow][icol].activeNeighbours = 0;
                     for (int ineighbour = 0; ineighbour < 8; ineighbour++) // There are always 8 neighbours (including assumed ones)
                     {
-                        int neighbour_row = this.cells2D[irow][icol].neighboursPosition[ineighbour][0];
-                        int neighbour_col = this.cells2D[irow][icol].neighboursPosition[ineighbour][1];
-                        try
+                        if (newCells[irow][icol].activeNeighbours >= 4)
                         {
-                            if (newCells[neighbour_row][neighbour_col].state == true)
-                            {
-                                newCells[irow][icol].activeNeighbours += 1;
-                            }
+                            break; // We never really care if a cell has more than 4 active neighbours
                         }
-                        catch { }
+                        else
+                        {
+                            int neighbour_row = this.cells2D[irow][icol].neighboursPosition[ineighbour][0];
+                            int neighbour_col = this.cells2D[irow][icol].neighboursPosition[ineighbour][1];
+                            try
+                            {
+                                if (newCells[neighbour_row][neighbour_col].state == true)
+                                {
+                                    newCells[irow][icol].activeNeighbours += 1;
+                                }
+                            }
+                            catch { }
+                        }
                     }
                 } 
             }
@@ -268,9 +270,6 @@ namespace GameOfLife
                     }
                 }
             }
-
-
-
         }
 
         private void btn_Simulate_Click(object sender, EventArgs e)
@@ -288,7 +287,8 @@ namespace GameOfLife
                 {
                     DrawBorder(cells: this.cells2D);
                 }
-                Thread.Sleep(1000 / speed);
+                Task.Delay(500 / speed).Wait();
+                // Thread.Sleep(1000 / speed);
             }
         }
     }

@@ -322,7 +322,6 @@
             this.Name = "GUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Conway\'s Game of Life";
-            this.Load += new System.EventHandler(this.GUI_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GUI_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.UpDown_X)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDown_Y)).EndInit();
