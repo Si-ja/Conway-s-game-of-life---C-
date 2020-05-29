@@ -8,12 +8,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace GameOfLife
 {
     public partial class GUI : Form
     {
         List<List<Cell>> cells2D = new List<List<Cell>>();
+        List<float> coordinatesX_cell = new List<float>(); // This will keep a list of all the coordinates on X-axis where cells start
+        List<float> coordinatesY_cell = new List<float>(); // This will keep a list of all the coordinates on Y-axis where cells start
+
         public GUI()
         {
             InitializeComponent();
@@ -22,10 +26,10 @@ namespace GameOfLife
 
         private void GUI_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
-            Field field = new Field();
-            Pen myBlackPen = new Pen(color: Color.Black);
-            g.DrawRectangle(pen: myBlackPen, x: field.x, y: field.y, width: field.width - 1, height: field.height - 1);
+            // Graphics g = e.Graphics;
+            // Field field = new Field();
+            // Pen myBlackPen = new Pen(color: Color.Black);
+            // g.DrawRectangle(pen: myBlackPen, x: field.x, y: field.y, width: field.width - 1, height: field.height - 1);
         }
 
         private void btn_GenerateField_Click(object sender, EventArgs e)
@@ -75,19 +79,35 @@ namespace GameOfLife
             // Assign them proper parameters and states so they can be represented on the board
             List<List<Cell>> cells = new List<List<Cell>>();
             // Iterate through what would be a matrix of information for holding of the cells
-            int tracker = 0;
+            // Parellel to that, we want to know general coordinates where cells reside. This helps later with drawing them for the user
+            int statesTracker = 0;
+            bool xTracker = true;
+            // Before we initiate everything - we need to clean our coordinates tracker
+            coordinatesX_cell.Clear();
+            coordinatesY_cell.Clear();
             for (int iy = 0; iy < rows; iy++)
             {
+                // Information on the Y coordinates updates on each pass of rows calculated
+                coordinatesY_cell.Add(field.y + cell_height * iy);
                 List<Cell> tempCells = new List<Cell>();
                 for (int ix = 0; ix < cols; ix++)
                 {
                     tempCells.Add(new Cell());
                     tempCells[ix].width = cell_width;
                     tempCells[ix].height = cell_height;
-                    tempCells[ix].state = states[tracker];
-                    tracker++;
+                    tempCells[ix].state = states[statesTracker];
+                    tempCells[ix].activityChanged = false; // During generation all changed activity is viewed as non existant
                     tempCells[ix].coordinateY = field.y + cell_height * iy;
                     tempCells[ix].coordinateX = field.x + cell_width * ix;
+
+                    // Information on the X coordinates updates only once
+                    if (xTracker)
+                    {
+                        coordinatesX_cell.Add(field.x + cell_width * ix);
+                    }
+
+                    statesTracker++;
+
                     // And now find all the neighbours by going around the active cell
                     for (int iy2 = iy - 1; iy2 <= iy + 1; iy2++)
                     {
@@ -105,6 +125,7 @@ namespace GameOfLife
                     }
                 }
                 cells.Add(tempCells);
+                xTracker = false;
             }
             // Update the internal tracker of what is being worked with
             this.cells2D = cells;
@@ -121,24 +142,41 @@ namespace GameOfLife
             {
                 DrawBorder(cells: this.cells2D);
             }
-            
-
         }        
         
         private void btn_MakeStep_Click(object sender, EventArgs e)
         {
             UpdateActiveNeighoburs();
             UpdateActivity();
-            DrawCells(this.cells2D);
+            ReDrawCells(this.cells2D);
             // Check if the user wants to have the grid displayed as well
             bool gridStatus = checkBox_Grid.Checked;
             if (gridStatus)
             {
                 DrawBorder(cells: this.cells2D);
             }
-
         }
 
+        private void btn_Simulate_Click(object sender, EventArgs e)
+        {
+            // Simulate the steps update automatically
+            bool gridStatus = checkBox_Grid.Checked; // Does the user want the grid (?)
+            int amountOfSteps = int.Parse(UpDown_SimSteps.Value.ToString());
+            var speed = track_Speed.Value;
+            for (int i = 0; i < amountOfSteps; i++)
+            {
+                UpdateActiveNeighoburs();
+                UpdateActivity();
+                DrawCells(this.cells2D);
+                if (gridStatus)
+                {
+                    DrawBorder(cells: this.cells2D);
+                }
+                Task.Delay(500 / speed).Wait();
+                // Thread.Sleep(1000 / speed);
+            }
+        }
+        
         private void DrawBorder(List<List<Cell>> cells)
         {
             //Draw boarder for a more visual information representation in the game
@@ -175,7 +213,7 @@ namespace GameOfLife
 
         private void DrawCells(List<List<Cell>> cells)
         {
-            // Draw Cells that are in their active states
+            // Draw Cells that are in their active states - For the large field during generation
             Field field = new Field();
             Graphics g = this.CreateGraphics();
             Brush myLightGrayBrush = new SolidBrush(color: Color.LightGray); // For inactive cells
@@ -252,43 +290,123 @@ namespace GameOfLife
                 {
                     bool currentState = cell.state;
                     int surroundingActivity = cell.activeNeighbours;
-                    switch (currentState)
+                    if (currentState == true)
                     {
-                        case true:
-                            if (surroundingActivity <= 1 || surroundingActivity >= 4)
-                            {
-                                cell.state = false;
-                            }
-                            break;
-
-                        default:
-                            if (surroundingActivity == 3)
-                            {
-                                cell.state = true;
-                            }
-                            break;
+                        if (surroundingActivity <= 1 || surroundingActivity >= 4)
+                        {
+                            cell.activityChanged = true;
+                            cell.state = false;
+                        }
+                        else
+                        {
+                            cell.activityChanged = false;
+                        }
+                    } 
+                    else if (currentState == false)
+                    {
+                        if (surroundingActivity == 3)
+                        {
+                            cell.activityChanged = true;
+                            cell.state = true;
+                        } 
+                        else
+                        {
+                            cell.activityChanged = false;
+                        }
                     }
                 }
             }
         }
 
-        private void btn_Simulate_Click(object sender, EventArgs e)
+        private void ReDrawCells(List<List<Cell>> cells)
         {
-            // Simulate the steps update automatically
-            bool gridStatus = checkBox_Grid.Checked; // Does the user want the grid (?)
-            int amountOfSteps = int.Parse(UpDown_SimSteps.Value.ToString());
-            var speed = track_Speed.Value;
-            for (int i = 0; i < amountOfSteps; i++)
+            // Only ReDraw those cells that require being redrawn (the ones that changed their state)
+            Field field = new Field();
+            Graphics g = this.CreateGraphics();
+            Brush myLightGrayBrush = new SolidBrush(color: Color.LightGray); // For inactive cells
+            Brush myBlackBrush = new SolidBrush(color: Color.Black);         // For active cells
+
+            foreach (var rowList in cells)
             {
-                UpdateActiveNeighoburs();
-                UpdateActivity();
-                DrawCells(this.cells2D);
-                if (gridStatus)
+                foreach (var cell in rowList)
                 {
-                    DrawBorder(cells: this.cells2D);
+                    if (cell.activityChanged == true)
+                    {
+                        if (cell.state == true)
+                        {
+                            g.FillRectangle(brush: myBlackBrush, x: cell.coordinateX, y: cell.coordinateY, width: cell.width, height: cell.height);
+                        }
+                        else
+                        {
+                            g.FillRectangle(brush: myLightGrayBrush, x: cell.coordinateX, y: cell.coordinateY, width: cell.width, height: cell.height);
+                        }
+                    }
                 }
-                Task.Delay(500 / speed).Wait();
-                // Thread.Sleep(1000 / speed);
+            }
+        }
+
+        private void GUI_MouseDown(object sender, MouseEventArgs e)
+        {
+            Field field = new Field();
+            // Check if the cells have been or have not been generated at any point
+            if (this.cells2D.Any())
+            {
+                var toFindX = (float) e.X;
+                var toFindY = (float) e.Y;
+
+                int iXtracker = -1;
+                int iYtracker = -1;
+
+                // We want to know whether we are working with our coordinates space in the right field
+                if (toFindX >= field.x && toFindX <= (field.x + field.width) && toFindY >= field.y && toFindY <= (field.y + field.width))
+                {
+                    // Find the cell on the X coordinate space
+                    for (int iX = 0; iX < coordinatesX_cell.Count(); iX++)
+                    {
+                        if (toFindX > coordinatesX_cell[iX])
+                        {
+                            iXtracker++;
+                        }
+                    }
+
+                    for (int iY = 0; iY < coordinatesY_cell.Count(); iY++)
+                    {
+                        if (toFindY > coordinatesY_cell[iY])
+                        {
+                            iYtracker++;
+                        }
+                    }
+
+
+                    // Now to finally find the cell we need to update - to active
+                    if (radioBtn_Alive.Checked)
+                    {
+                        if (this.cells2D[iYtracker][iXtracker].state == false)
+                        {
+                            this.cells2D[iYtracker][iXtracker].state = true;
+                            if (this.cells2D[iYtracker][iXtracker].activityChanged == false)
+                            {
+                                this.cells2D[iYtracker][iXtracker].activityChanged = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (this.cells2D[iYtracker][iXtracker].state == true)
+                        {
+                            this.cells2D[iYtracker][iXtracker].state = false;
+                            if (this.cells2D[iYtracker][iXtracker].activityChanged == false)
+                            {
+                                this.cells2D[iYtracker][iXtracker].activityChanged = true;
+                            }
+                        }
+                    }
+                    ReDrawCells(this.cells2D);
+                } 
+                else
+                {
+                    return;
+                }  
             }
         }
     }

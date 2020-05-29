@@ -48,6 +48,9 @@
             this.lbl_Speed = new System.Windows.Forms.Label();
             this.track_Speed = new System.Windows.Forms.TrackBar();
             this.btn_Simulate = new System.Windows.Forms.Button();
+            this.lbl_Draw = new System.Windows.Forms.Label();
+            this.radioBtn_Alive = new System.Windows.Forms.RadioButton();
+            this.radioBtn_Dead = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.UpDown_X)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDown_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDown_Perc)).BeginInit();
@@ -196,7 +199,7 @@
             // btn_MakeStep
             // 
             this.btn_MakeStep.Font = new System.Drawing.Font("Modern No. 20", 12F);
-            this.btn_MakeStep.Location = new System.Drawing.Point(594, 396);
+            this.btn_MakeStep.Location = new System.Drawing.Point(594, 355);
             this.btn_MakeStep.Name = "btn_MakeStep";
             this.btn_MakeStep.Size = new System.Drawing.Size(155, 29);
             this.btn_MakeStep.TabIndex = 13;
@@ -208,7 +211,7 @@
             // 
             this.lbl_Simulation.AutoSize = true;
             this.lbl_Simulation.Font = new System.Drawing.Font("Modern No. 20", 12F);
-            this.lbl_Simulation.Location = new System.Drawing.Point(587, 355);
+            this.lbl_Simulation.Location = new System.Drawing.Point(583, 319);
             this.lbl_Simulation.Name = "lbl_Simulation";
             this.lbl_Simulation.Size = new System.Drawing.Size(171, 18);
             this.lbl_Simulation.TabIndex = 14;
@@ -218,7 +221,7 @@
             // 
             this.lbl_OR.AutoSize = true;
             this.lbl_OR.Font = new System.Drawing.Font("Modern No. 20", 12F);
-            this.lbl_OR.Location = new System.Drawing.Point(657, 441);
+            this.lbl_OR.Location = new System.Drawing.Point(661, 395);
             this.lbl_OR.Name = "lbl_OR";
             this.lbl_OR.Size = new System.Drawing.Size(29, 18);
             this.lbl_OR.TabIndex = 15;
@@ -228,7 +231,7 @@
             // 
             this.lbl_Generation.AutoSize = true;
             this.lbl_Generation.Font = new System.Drawing.Font("Modern No. 20", 12F);
-            this.lbl_Generation.Location = new System.Drawing.Point(591, 486);
+            this.lbl_Generation.Location = new System.Drawing.Point(591, 427);
             this.lbl_Generation.Name = "lbl_Generation";
             this.lbl_Generation.Size = new System.Drawing.Size(89, 18);
             this.lbl_Generation.TabIndex = 16;
@@ -237,7 +240,7 @@
             // UpDown_SimSteps
             // 
             this.UpDown_SimSteps.Font = new System.Drawing.Font("Minion Pro", 12F);
-            this.UpDown_SimSteps.Location = new System.Drawing.Point(686, 483);
+            this.UpDown_SimSteps.Location = new System.Drawing.Point(686, 424);
             this.UpDown_SimSteps.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -262,7 +265,7 @@
             // 
             this.lbl_Speed.AutoSize = true;
             this.lbl_Speed.Font = new System.Drawing.Font("Modern No. 20", 12F);
-            this.lbl_Speed.Location = new System.Drawing.Point(652, 531);
+            this.lbl_Speed.Location = new System.Drawing.Point(652, 466);
             this.lbl_Speed.Name = "lbl_Speed";
             this.lbl_Speed.Size = new System.Drawing.Size(44, 18);
             this.lbl_Speed.TabIndex = 18;
@@ -272,7 +275,7 @@
             // 
             this.track_Speed.BackColor = System.Drawing.Color.LightGray;
             this.track_Speed.Cursor = System.Windows.Forms.Cursors.Default;
-            this.track_Speed.Location = new System.Drawing.Point(594, 563);
+            this.track_Speed.Location = new System.Drawing.Point(594, 487);
             this.track_Speed.Maximum = 5;
             this.track_Speed.Minimum = 1;
             this.track_Speed.Name = "track_Speed";
@@ -284,7 +287,7 @@
             // btn_Simulate
             // 
             this.btn_Simulate.Font = new System.Drawing.Font("Modern No. 20", 12F);
-            this.btn_Simulate.Location = new System.Drawing.Point(594, 614);
+            this.btn_Simulate.Location = new System.Drawing.Point(594, 538);
             this.btn_Simulate.Name = "btn_Simulate";
             this.btn_Simulate.Size = new System.Drawing.Size(155, 31);
             this.btn_Simulate.TabIndex = 20;
@@ -292,12 +295,49 @@
             this.btn_Simulate.UseVisualStyleBackColor = true;
             this.btn_Simulate.Click += new System.EventHandler(this.btn_Simulate_Click);
             // 
+            // lbl_Draw
+            // 
+            this.lbl_Draw.AutoSize = true;
+            this.lbl_Draw.Font = new System.Drawing.Font("Modern No. 20", 12F);
+            this.lbl_Draw.Location = new System.Drawing.Point(600, 587);
+            this.lbl_Draw.Name = "lbl_Draw";
+            this.lbl_Draw.Size = new System.Drawing.Size(143, 18);
+            this.lbl_Draw.TabIndex = 21;
+            this.lbl_Draw.Text = "--------- Draw ---------";
+            // 
+            // radioBtn_Alive
+            // 
+            this.radioBtn_Alive.AutoSize = true;
+            this.radioBtn_Alive.Checked = true;
+            this.radioBtn_Alive.Font = new System.Drawing.Font("Modern No. 20", 12F);
+            this.radioBtn_Alive.Location = new System.Drawing.Point(636, 618);
+            this.radioBtn_Alive.Name = "radioBtn_Alive";
+            this.radioBtn_Alive.Size = new System.Drawing.Size(60, 22);
+            this.radioBtn_Alive.TabIndex = 22;
+            this.radioBtn_Alive.TabStop = true;
+            this.radioBtn_Alive.Text = "Alive";
+            this.radioBtn_Alive.UseVisualStyleBackColor = true;
+            // 
+            // radioBtn_Dead
+            // 
+            this.radioBtn_Dead.AutoSize = true;
+            this.radioBtn_Dead.Font = new System.Drawing.Font("Modern No. 20", 12F);
+            this.radioBtn_Dead.Location = new System.Drawing.Point(636, 647);
+            this.radioBtn_Dead.Name = "radioBtn_Dead";
+            this.radioBtn_Dead.Size = new System.Drawing.Size(59, 22);
+            this.radioBtn_Dead.TabIndex = 23;
+            this.radioBtn_Dead.Text = "Dead";
+            this.radioBtn_Dead.UseVisualStyleBackColor = true;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(784, 681);
+            this.Controls.Add(this.radioBtn_Dead);
+            this.Controls.Add(this.radioBtn_Alive);
+            this.Controls.Add(this.lbl_Draw);
             this.Controls.Add(this.btn_Simulate);
             this.Controls.Add(this.track_Speed);
             this.Controls.Add(this.lbl_Speed);
@@ -318,11 +358,13 @@
             this.Controls.Add(this.lbl_1Instructions);
             this.Controls.Add(this.lbl_Author);
             this.Controls.Add(this.lbl_Title);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Conway\'s Game of Life";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GUI_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GUI_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.UpDown_X)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDown_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDown_Perc)).EndInit();
@@ -354,6 +396,9 @@
         private System.Windows.Forms.Label lbl_Speed;
         private System.Windows.Forms.TrackBar track_Speed;
         private System.Windows.Forms.Button btn_Simulate;
+        private System.Windows.Forms.Label lbl_Draw;
+        private System.Windows.Forms.RadioButton radioBtn_Alive;
+        private System.Windows.Forms.RadioButton radioBtn_Dead;
     }
 }
 

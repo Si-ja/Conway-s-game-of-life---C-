@@ -1,8 +1,12 @@
 # Conway's Game of Life in C#
 
-This is a relatively simple example of the Conway's Game of Life that I wanted to make in C# for quite some time. At the current
-stage, the cells that can be either alive or not are generated randomly, where in the future there can be seen reason to make cells
-selectable (and/our updatable) to allow for the user to chose on their own how they want the game to start.
+This is a relatively simple example of the Conway's Game of Life that I wanted to make in C# for quite some time. 
+
+At the current stage, the cells that can be either alive or not are generated randomly or with new update drawn by the user (individually), so
+that the game could be simulated from any step the user wants to begin in any position of the cells.
+
+To draw for yourself, do note that the field needs to be first generated, otherwise nothing can be drawn, as there is no selectable space
+or specifically no grid to work on.
 
 ---
 

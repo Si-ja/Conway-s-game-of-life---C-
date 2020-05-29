@@ -17,6 +17,7 @@ namespace GameOfLife
         public float coordinateY { get; set; } // Location where the cell needs to be start being drawn on Y-axis
         public bool state { get; set; } // State of the cell - either on or off (true or false)
         public int activeNeighbours { get; set; } // Amount of active neighbours that the cell has
+        public bool activityChanged { get; set; } // We will keep track here of whether in respect to the previous step the activity of the cell changed
 
         public List<List<int>> neighboursPosition = new List<List<int>>(); // Location of assumed closest neighbours (always 8)
 

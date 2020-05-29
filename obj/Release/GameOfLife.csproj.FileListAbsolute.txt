@@ -7,3 +7,4 @@ D:\All for Work Projects\C#Projects\ConowaysGameOfLife\GameOfLife\obj\Release\Ga
 D:\All for Work Projects\C#Projects\ConowaysGameOfLife\GameOfLife\obj\Release\GameOfLife.csproj.CoreCompileInputs.cache
 D:\All for Work Projects\C#Projects\ConowaysGameOfLife\GameOfLife\obj\Release\GameOfLife.exe
 D:\All for Work Projects\C#Projects\ConowaysGameOfLife\GameOfLife\obj\Release\GameOfLife.pdb
+D:\All for Work Projects\C#Projects\ConowaysGameOfLife\GameOfLife\obj\Release\GameOfLife.csprojAssemblyReference.cache
