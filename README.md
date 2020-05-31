@@ -14,3 +14,6 @@ Examples of how the GUI looks currently can be seen in the following images furt
 ![alt text](https://github.com/Si-ja/Conways-game-of-life-in-C-sharp/blob/master/Interface/Example1.PNG "Example 1")
 ![alt text](https://github.com/Si-ja/Conways-game-of-life-in-C-sharp/blob/master/Interface/Example2.PNG "Example 2")
 ![alt text](https://github.com/Si-ja/Conways-game-of-life-in-C-sharp/blob/master/Interface/Example3.PNG "Example 3")
+
+Update: Ability added for the user to draw cells in either alive or not state.
+![alt text](https://github.com/Si-ja/Conways-game-of-life-in-C-sharp/blob/master/Interface/Example4.PNG "Example 4")
